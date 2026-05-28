@@ -2,7 +2,7 @@ import requests
 from datetime import date, timedelta
 
 
-def get_weather_forecast(city="Уфа"):
+def get_weather_forecast(city="Москва"):
     """Получает прогноз погоды на 7 дней через Open-Meteo"""
     try:
         geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city}&count=1&language=ru"
