@@ -8,8 +8,9 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=True)  # nullable for Yandex-only users
-    city = db.Column(db.String(100), default='Москва')
+    city = db.Column(db.String(100), default='Уфа')
     yandex_id = db.Column(db.String(100), unique=True, nullable=True)
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
 
 class CropCatalog(db.Model):

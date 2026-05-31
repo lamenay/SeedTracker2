@@ -355,6 +355,9 @@
                         <a class="nav-link" href="{{ url_for('plantings.add_planting') }}">🌱 Посадка</a>
                         <a class="nav-link" href="{{ url_for('calendar.calendar') }}">📅 Календарь</a>
                         <a class="nav-link" href="{{ url_for('main.settings') }}">⚙️ Настройки</a>
+                        {% if current_user.is_admin %}
+                        <a class="nav-link" style="color:#ffd700;font-weight:600;" href="{{ url_for('admin.index') }}">🛠 Админ</a>
+                        {% endif %}
                         <a class="nav-link text-light" href="{{ url_for('auth.logout') }}">
                             Выйти ({{ current_user.username }})
                         </a>

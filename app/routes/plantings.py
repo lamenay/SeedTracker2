@@ -75,7 +75,8 @@ def get_catalog_item(catalog_id):
 def add_planting():
     form = PlantingForm()
     weather = get_weather_forecast(current_user.city)
-    user_seeds = Seed.query.filter_by(user_id=current_user.id).all()
+    user_seeds = Seed.query.filter_by(user_id=current_user.id).filter(Seed.remaining_seeds > 0).all()
+    form.seed_id.choices = [(s.id, f"{s.crop_name}{' — ' + s.variety if s.variety else ''} ({s.remaining_seeds} шт.)") for s in user_seeds]
 
     if form.validate_on_submit():
         seed = Seed.query.get_or_404(form.seed_id.data)

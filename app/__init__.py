@@ -20,11 +20,13 @@ def create_app():
     Migrate(app, db)
 
     from app.routes.auth import auth
+    from app.routes.admin import admin_bp
     from app.routes.main import main
     from app.routes.plantings import plantings
     from app.routes.calendar import calendar_bp
 
     app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(admin_bp)
     app.register_blueprint(main)
     app.register_blueprint(plantings, url_prefix='/plantings')
     app.register_blueprint(calendar_bp, url_prefix='/calendar')
@@ -36,6 +38,20 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+        # Создаём первого администратора если его нет
+        from app.models import User
+        from werkzeug.security import generate_password_hash
+        if not User.query.filter_by(email='admin@seedtracker.local').first():
+            admin = User(
+                username='admin',
+                email='admin@seedtracker.local',
+                password_hash=generate_password_hash('admin123'),
+                city='Москва',
+                is_admin=True
+            )
+            db.session.add(admin)
+            db.session.commit()
+            print('✅ Администратор создан: admin@seedtracker.local / admin123')
         seed_calendar_data()
         seed_crop_catalog()
 
